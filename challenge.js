@@ -10,24 +10,24 @@ class BST {
   constructor() {
     this.root = null;
   }
-  insert(num) {
-    //your code here
-    const newNode = new Node(num);
-    if(this.root === null) {
-      this.root = newNode;
-    } else {
-      this.insertNode(this.root, newNode);
-    }
-  }
 
-  insertNode(root, newNode) {
-    if(newNode.data < root.data) {
-      if(root.left === null) root.left = newNode;
-      else this.insertNode(root.left, newNode)
-    } else {
-       if (root.right === null) root.right = newNode;
-       else this.insertNode(root.right, newNode);
+  insert(node, current_node = this.root) {
+    //your code here
+    if(this.root === null) {
+      this.root = node
+      return
     }
+
+    if(current_node === null) {
+      return node
+    }
+
+    if(node.data <= current_node.data) {
+      current_node.left = this.insert(node, current_node.left)
+    }else{
+      current_node.right = this.insert(node, current_node.right)
+    }
+    return current_node
   }
 
   preOrder(node = this.root) {
@@ -41,7 +41,7 @@ class BST {
 
 function binarySearchTree(array) {
   const tree = new BST()
-  array.forEach(e => tree.insert(e))
+  array.forEach(e => tree.insert(new Node(e)))
   return tree.preOrder()
 }
 
